@@ -73,7 +73,13 @@
             position: relative;
         }
         .header-logo { display: flex; align-items: center; text-decoration: none; }
-        .header-logo img { width: 200px; height: 72px; display: block; transition: filter 0.3s; min-width: 200px; }
+        .header-logo img { 
+            width: 200px; 
+            height: auto; 
+            display: block; 
+            transition: filter 0.3s; 
+            min-width: 200px; 
+        }
         [data-theme="dark"] .header-logo img { filter: invert(1); }
         .header-controls {
             position: absolute;
@@ -134,7 +140,45 @@
             height: 48px;
             overflow: hidden;
         }
-        .ticker-wrapper { display: flex; align-items: center; height: 100%; overflow: hidden; position: relative; }
+        .ticker-wrapper {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .ticker-track {
+            display: flex;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+            will-change: transform;
+        }
+        .ticker-track:hover { animation-play-state: paused; }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 28px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+            border-right: 1px solid var(--border);
+        }
+        .ticker-symbol { color: var(--text-secondary); font-weight: 400; font-size: 13px; }
+        .ticker-price { color: var(--text-primary); font-weight: 600; }
+        .ticker-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .ticker-change.up { color: var(--price-up); }
+        .ticker-change.down { color: var(--price-down); }
         .main-content { margin-top: 112px; min-height: calc(100vh - 112px); }
         .tabs-nav {
             display: flex;
@@ -330,7 +374,7 @@
         }
         @media (max-width: 768px) {
             .header-inner { padding: 0 16px; }
-            .header-logo img { width: 160px; height: 58px; min-width: 160px; }
+            .header-logo img { width: 160px; height: auto; min-width: 160px; }
             .header-controls { right: 16px; gap: 8px; }
             .control-btn { padding: 6px 10px; font-size: 12px; }
             .tab-btn { padding: 12px 16px; font-size: 13px; }
@@ -339,7 +383,7 @@
             .articles-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) {
-            .header-logo img { width: 140px; height: 50px; min-width: 140px; }
+            .header-logo img { width: 140px; height: auto; min-width: 140px; }
             .tab-btn { padding: 10px 12px; font-size: 12px; }
         }
     </style>
@@ -363,13 +407,13 @@
     <header class="header">
         <div class="header-inner">
             <a href="#" class="header-logo">
-    <img src="logo.svg" alt="Terragow" style="width: 250px; height: auto;">
-</a>
+                <img src="logo.svg" alt="Terragow">
+            </a>
             <div class="header-controls">
                 <div class="lang-dropdown">
                     <button class="control-btn" onclick="toggleLangMenu()" id="langBtn">
                         <span id="currentLang">EN</span>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="lang-menu" id="langMenu">
                         <div class="lang-option active" data-lang="en" onclick="changeLang('en')">🇺🇸 English</div>
@@ -389,28 +433,71 @@
         </div>
     </header>
 
-    <!-- TradingView Ticker Widget -->
+    <!-- Custom Ticker -->
     <div class="ticker-section">
-        <div class="ticker-wrapper" style="height: 48px;">
-            <div class="tradingview-widget-container" style="width: 100%; height: 48px;">
-                <div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-                {
-                    "symbols": [
-                        { "proName": "OANDA:XAUUSD", "title": "GOLD" },
-                        { "proName": "ICEEUR:BRN1!", "title": "BRENT" },
-                        { "proName": "NYMEX:WTI1!", "title": "WTI" },
-                        { "proName": "CBOT:ZW1!", "title": "WHEAT" },
-                        { "proName": "TVC:SILVER", "title": "SILVER" },
-                        { "proName": "NYMEX:NG1!", "title": "NATGAS" }
-                    ],
-                    "showSymbolLogo": true,
-                    "colorTheme": "light",
-                    "isTransparent": false,
-                    "displayMode": "regular",
-                    "locale": "en"
-                }
-                </script>
+        <div class="ticker-wrapper">
+            <div class="ticker-track" id="tickerTrack">
+                <div class="ticker-item">
+                    <span class="ticker-symbol">GOLD</span>
+                    <span class="ticker-price">2,341.80</span>
+                    <span class="ticker-change up">▲ +12.40</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-symbol">BRENT</span>
+                    <span class="ticker-price">82.15</span>
+                    <span class="ticker-change down">▼ -0.85</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-symbol">WTI</span>
+                    <span class="ticker-price">78.30</span>
+                    <span class="ticker-change down">▼ -0.62</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-symbol">WHEAT</span>
+                    <span class="ticker-price">612.50</span>
+                    <span class="ticker-change up">▲ +4.25</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-symbol">SILVER</span>
+                    <span class="ticker-price">28.45</span>
+                    <span class="ticker-change up">▲ +0.35</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-symbol">NATGAS</span>
+                    <span class="ticker-price">2.85</span>
+                    <span class="ticker-change up">▲ +0.08</span>
+                </div>
+                <!-- Duplicate for seamless loop -->
+                <div class="ticker-item">
+                    <span class="ticker-symbol">GOLD</span>
+                    <span class="ticker-price">2,341.80</span>
+                    <span class="ticker-change up">▲ +12.40</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-symbol">BRENT</span>
+                    <span class="ticker-price">82.15</span>
+                    <span class="ticker-change down">▼ -0.85</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-symbol">WTI</span>
+                    <span class="ticker-price">78.30</span>
+                    <span class="ticker-change down">▼ -0.62</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-symbol">WHEAT</span>
+                    <span class="ticker-price">612.50</span>
+                    <span class="ticker-change up">▲ +4.25</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-symbol">SILVER</span>
+                    <span class="ticker-price">28.45</span>
+                    <span class="ticker-change up">▲ +0.35</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="ticker-symbol">NATGAS</span>
+                    <span class="ticker-price">2.85</span>
+                    <span class="ticker-change up">▲ +0.08</span>
+                </div>
             </div>
         </div>
     </div>
@@ -444,17 +531,19 @@
                     </div>
                 </div>
                 <div class="widgets-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
-                    <div class="widget-card">
-                        <div class="widget-header">📈 XAU/USD Mini Chart</div>
-                        <div class="widget-body">
-                            <iframe src="https://www.tradingview-widget.com/embed-widget/mini-symbol-overview/?locale=en&symbol=OANDA%3AXAUUSD&dateRange=1D&chartType=area&width=100%&height=100%&utm_source=terragow.com&utm_medium=widget&utm_campaign=mini-symbol-overview" allowtransparency="true" scrolling="no"></iframe>
-                        </div>
+                    <div class="widget-card" style="display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--text-muted); gap: 12px;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: 0.4;">
+                            <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
+                        </svg>
+                        <span style="font-size: 14px; font-weight: 500;">Live Chart</span>
+                        <span style="font-size: 12px; opacity: 0.6;">TradingView integration</span>
                     </div>
-                    <div class="widget-card">
-                        <div class="widget-header">💰 Precious Metals</div>
-                        <div class="widget-body">
-                            <iframe src="https://www.tradingview-widget.com/embed-widget/market-quotes/?locale=en&width=100%&height=100%&symbols=%5B%7B%22proName%22%3A%22OANDA%3AXAUUSD%22%2C%22title%22%3A%22Gold%22%7D%2C%7B%22proName%22%3A%22TVC%3ASILVER%22%2C%22title%22%3A%22Silver%22%7D%2C%7B%22proName%22%3A%22TVC%3APLATINUM%22%2C%22title%22%3A%22Platinum%22%7D%2C%7B%22proName%22%3A%22TVC%3APALLADIUM%22%2C%22title%22%3A%22Palladium%22%7D%5D&utm_source=terragow.com&utm_medium=widget&utm_campaign=market-quotes" allowtransparency="true" scrolling="no"></iframe>
-                        </div>
+                    <div class="widget-card" style="display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--text-muted); gap: 12px;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: 0.4;">
+                            <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
+                        </svg>
+                        <span style="font-size: 14px; font-weight: 500;">Market Data</span>
+                        <span style="font-size: 12px; opacity: 0.6;">Real-time quotes</span>
                     </div>
                 </div>
             </div>
@@ -479,17 +568,19 @@
                     </div>
                 </div>
                 <div class="widgets-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
-                    <div class="widget-card">
-                        <div class="widget-header">📈 Brent Crude Mini Chart</div>
-                        <div class="widget-body">
-                            <iframe src="https://www.tradingview-widget.com/embed-widget/mini-symbol-overview/?locale=en&symbol=ICEEUR%3ABRN1!&dateRange=1D&chartType=area&width=100%&height=100%&utm_source=terragow.com&utm_medium=widget&utm_campaign=mini-symbol-overview" allowtransparency="true" scrolling="no"></iframe>
-                        </div>
+                    <div class="widget-card" style="display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--text-muted); gap: 12px;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: 0.4;">
+                            <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
+                        </svg>
+                        <span style="font-size: 14px; font-weight: 500;">Live Chart</span>
+                        <span style="font-size: 12px; opacity: 0.6;">TradingView integration</span>
                     </div>
-                    <div class="widget-card">
-                        <div class="widget-header">🛢️ Energy Futures</div>
-                        <div class="widget-body">
-                            <iframe src="https://www.tradingview-widget.com/embed-widget/market-quotes/?locale=en&width=100%&height=100%&symbols=%5B%7B%22proName%22%3A%22ICEEUR%3ABRN1!%22%2C%22title%22%3A%22Brent%22%7D%2C%7B%22proName%22%3A%22NYMEX%3AWTI1!%22%2C%22title%22%3A%22WTI%22%7D%2C%7B%22proName%22%3A%22NYMEX%3ANG1!%22%2C%22title%22%3A%22Natural%20Gas%22%7D%2C%7B%22proName%22%3A%22NYMEX%3ARB1!%22%2C%22title%22%3A%22Gasoline%22%7D%5D&utm_source=terragow.com&utm_medium=widget&utm_campaign=market-quotes" allowtransparency="true" scrolling="no"></iframe>
-                        </div>
+                    <div class="widget-card" style="display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--text-muted); gap: 12px;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: 0.4;">
+                            <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
+                        </svg>
+                        <span style="font-size: 14px; font-weight: 500;">Market Data</span>
+                        <span style="font-size: 12px; opacity: 0.6;">Real-time quotes</span>
                     </div>
                 </div>
             </div>
@@ -514,17 +605,19 @@
                     </div>
                 </div>
                 <div class="widgets-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
-                    <div class="widget-card">
-                        <div class="widget-header">📈 Wheat CBOT Mini Chart</div>
-                        <div class="widget-body">
-                            <iframe src="https://www.tradingview-widget.com/embed-widget/mini-symbol-overview/?locale=en&symbol=CBOT%3AZW1!&dateRange=1D&chartType=area&width=100%&height=100%&utm_source=terragow.com&utm_medium=widget&utm_campaign=mini-symbol-overview" allowtransparency="true" scrolling="no"></iframe>
-                        </div>
+                    <div class="widget-card" style="display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--text-muted); gap: 12px;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: 0.4;">
+                            <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
+                        </svg>
+                        <span style="font-size: 14px; font-weight: 500;">Live Chart</span>
+                        <span style="font-size: 12px; opacity: 0.6;">TradingView integration</span>
                     </div>
-                    <div class="widget-card">
-                        <div class="widget-header">🌾 Agricultural Futures</div>
-                        <div class="widget-body">
-                            <iframe src="https://www.tradingview-widget.com/embed-widget/market-quotes/?locale=en&width=100%&height=100%&symbols=%5B%7B%22proName%22%3A%22CBOT%3AZW1!%22%2C%22title%22%3A%22Wheat%22%7D%2C%7B%22proName%22%3A%22CBOT%3AZS1!%22%2C%22title%22%3A%22Soybeans%22%7D%2C%7B%22proName%22%3A%22CBOT%3AZC1!%22%2C%22title%22%3A%22Corn%22%7D%2C%7B%22proName%22%3A%22CME_MINI%3AYM1!%22%2C%22title%22%3A%22Oats%22%7D%5D&utm_source=terragow.com&utm_medium=widget&utm_campaign=market-quotes" allowtransparency="true" scrolling="no"></iframe>
-                        </div>
+                    <div class="widget-card" style="display: flex; align-items: center; justify-content: center; flex-direction: column; color: var(--text-muted); gap: 12px;">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: 0.4;">
+                            <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
+                        </svg>
+                        <span style="font-size: 14px; font-weight: 500;">Market Data</span>
+                        <span style="font-size: 12px; opacity: 0.6;">Real-time quotes</span>
                     </div>
                 </div>
             </div>
