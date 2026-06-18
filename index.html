@@ -650,6 +650,57 @@
     </footer>
 
     <script>
+        // ===== LIVE PRICES =====
+        async function fetchPrice(symbol) {
+            try {
+                const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`);
+                const data = await response.json();
+                const result = data.chart.result[0];
+                const price = result.meta.regularMarketPrice;
+                const prevClose = result.meta.previousClose || result.meta.chartPreviousClose;
+                const change = price - prevClose;
+                const changePercent = ((change / prevClose) * 100).toFixed(2);
+                return { price, change, changePercent, prevClose };
+            } catch (e) {
+                return null;
+            }
+        }
+
+        async function updateTicker() {
+            const symbols = {
+                'GOLD': 'GC=F',
+                'BRENT': 'BZ=F',
+                'WTI': 'CL=F',
+                'WHEAT': 'ZW=F',
+                'SILVER': 'SI=F',
+                'NATGAS': 'NG=F'
+            };
+            
+            const items = document.querySelectorAll('.ticker-item');
+            const uniqueSymbols = [...new Set([...items].map(item => item.querySelector('.ticker-symbol').textContent))];
+            
+            for (const symbol of uniqueSymbols) {
+                const yahooSymbol = symbols[symbol];
+                if (!yahooSymbol) continue;
+                
+                const data = await fetchPrice(yahooSymbol);
+                if (!data) continue;
+                
+                const priceStr = data.price < 100 ? data.price.toFixed(2) : data.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                const changeStr = data.change >= 0 ? `▲ +${data.change.toFixed(2)}` : `▼ ${data.change.toFixed(2)}`;
+                const changeClass = data.change >= 0 ? 'up' : 'down';
+                
+                items.forEach(item => {
+                    if (item.querySelector('.ticker-symbol').textContent === symbol) {
+                        item.querySelector('.ticker-price').textContent = priceStr;
+                        const changeEl = item.querySelector('.ticker-change');
+                        changeEl.textContent = changeStr;
+                        changeEl.className = `ticker-change ${changeClass}`;
+                    }
+                });
+            }
+        }
+
         // ===== DATA =====
         const newsData = {
             gold: [
@@ -756,6 +807,8 @@
 
         // ===== INIT =====
         document.addEventListener('DOMContentLoaded', function() {
+            updateTicker();
+            setInterval(updateTicker, 60000);
             initNews();
             initArticles();
             detectBrowserLang();
@@ -904,6 +957,7 @@
                 document.getElementById('langMenu').classList.remove('active');
             }
         });
+        
     </script>
 </body>
 </html>
