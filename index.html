@@ -667,39 +667,59 @@
         }
 
         async function updateTicker() {
-            const symbols = {
-                'GOLD': 'GC=F',
-                'BRENT': 'BZ=F',
-                'WTI': 'CL=F',
-                'WHEAT': 'ZW=F',
-                'SILVER': 'SI=F',
-                'NATGAS': 'NG=F'
-            };
-            
-            const items = document.querySelectorAll('.ticker-item');
-            const uniqueSymbols = [...new Set([...items].map(item => item.querySelector('.ticker-symbol').textContent))];
-            
-            for (const symbol of uniqueSymbols) {
-                const yahooSymbol = symbols[symbol];
-                if (!yahooSymbol) continue;
-                
-                const data = await fetchPrice(yahooSymbol);
-                if (!data) continue;
-                
-                const priceStr = data.price < 100 ? data.price.toFixed(2) : data.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                const changeStr = data.change >= 0 ? `▲ +${data.change.toFixed(2)}` : `▼ ${data.change.toFixed(2)}`;
-                const changeClass = data.change >= 0 ? 'up' : 'down';
-                
-                items.forEach(item => {
-                    if (item.querySelector('.ticker-symbol').textContent === symbol) {
-                        item.querySelector('.ticker-price').textContent = priceStr;
-                        const changeEl = item.querySelector('.ticker-change');
-                        changeEl.textContent = changeStr;
-                        changeEl.className = `ticker-change ${changeClass}`;
-                    }
-                });
-            }
+    try {
+        // Запрос к Netlify Function
+        const response = await fetch('/api/prices');
+        const data = await response.json();
+        
+        if (data.error) {
+            console.log('Price fetch error:', data.error);
+            return;
         }
+
+        // Обновляем каждый элемент тикера
+        const items = document.querySelectorAll('.ticker-item');
+        items.forEach(item => {
+            const symbol = item.querySelector('.ticker-symbol').textContent;
+            const priceData = data[symbol];
+            
+            if (!priceData) return;
+            
+            const price = priceData.price;
+            const change = priceData.change;
+            
+            // Форматируем цену
+            const priceStr = price < 100 ? price.toFixed(2) : price.toLocaleString('en-US', {
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2
+            });
+            
+            // Форматируем изменение
+            const changeStr = change >= 0 
+                ? `▲ +${change.toFixed(2)}` 
+                : `▼ ${change.toFixed(2)}`;
+            const changeClass = change >= 0 ? 'up' : 'down';
+            
+            // Обновляем DOM
+            item.querySelector('.ticker-price').textContent = priceStr;
+            const changeEl = item.querySelector('.ticker-change');
+            changeEl.textContent = changeStr;
+            changeEl.className = `ticker-change ${changeClass}`;
+        });
+        
+    } catch (e) {
+        console.log('Failed to fetch prices:', e);
+    }
+}
+
+// Запускаем при загрузке и каждые 30 секунд
+document.addEventListener('DOMContentLoaded', function() {
+    updateTicker();
+    setInterval(updateTicker, 900000);
+    // ... остальной init код
+});
+                
+               
 
         // ===== DATA =====
         const newsData = {
