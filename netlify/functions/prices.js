@@ -31,15 +31,15 @@ exports.handler = async function(event, context) {
     }
 
     // ETF-символы (фьючерсы не работают на бесплатном тарифе)
+    // Форекс и фьючерсы через Finnhub
     const symbols = {
-        GOLD: 'GLD',
-        BRENT: 'BNO',
-        WTI: 'USO',
-        WHEAT: 'WEAT',
-        SILVER: 'SLV',
-        NATGAS: 'UNG'
+        GOLD: 'OANDA:XAUUSD',    // Золото/доллар (форекс)
+        BRENT: 'OANDA:BCOUSD',   // Brent/доллар (форекс)
+        WTI: 'OANDA:WTICOUSD',   // WTI/доллар (форекс)
+        WHEAT: 'CBOT:ZW1!',      // Пшеница (фьючерс, может не работать)
+        SILVER: 'OANDA:XAGUSD',  // Серебро/доллар (форекс)
+        NATGAS: 'OANDA:NATGASUSD' // Газ/доллар (форекс)
     };
-
     try {
         const results = {};
         
