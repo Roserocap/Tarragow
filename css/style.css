@@ -141,19 +141,20 @@ body {
 /* ===== Ticker ===== */
 .ticker-section {
     position: fixed;
-    top: 85px;               /* ← было 90px, ставим точно под хедер */
+    top: 85px;                /* точно под хедером */
     left: 0; right: 0;
     z-index: 999;
-    background: var(--bg-primary);   /* ← фон сайта, а не серый */
+    background: var(--bg-primary);
     border-bottom: 1px solid var(--border);
-    height: auto;            /* ← ВЫСОТА ПО ВИДЖЕТУ, а не фиксированная */
-    overflow: hidden;
-    line-height: 0;          /* ← убирает лишний вертикальный отступ вокруг inline-элементов */
+    height: 40px;             /* фиксированная высота — обрезает копирайт */
+    overflow: hidden;         /* прячет всё, что не влезло */
+    line-height: 0;
 }
 
 .ticker-section tv-ticker-tape {
-    display: block;          /* ← виджет на всю ширину */
+    display: block;
     width: 100%;
+    margin-top: -4px;         /* компенсируем внутренний отступ виджета сверху */
 }
 .ticker-wrapper {
     display: flex;
