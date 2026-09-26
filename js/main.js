@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initArticles();
     detectBrowserLang();
     openTabFromHash();
+   updateWidgetsTheme(currentTheme);
 });
 
 /* ===== NEWS ===== */
