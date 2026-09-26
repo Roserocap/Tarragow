@@ -133,10 +133,5 @@ function updateThemeIcon(theme) {
     }
 }
 
-/* Закрываем языковое меню при клике вне его */
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.lang-dropdown')) {
-        const menu = document.getElementById('langMenu');
-        if (menu) menu.classList.remove('active');
-    }
+
 });
