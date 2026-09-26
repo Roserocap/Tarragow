@@ -134,16 +134,15 @@ function changeLang(lang) {
         if (t[tab]) el.textContent = t.analysis + ' — ' + t[tab];
     });
 
-       // Футер
+          // Футер
     document.querySelector('.footer-risk-title').textContent = t.riskTitle;
     document.querySelector('.footer-risk-text').textContent = t.riskText;
 
     // Запускаем авто-перевод через TerragowTranslate
     if (window.TerragowTranslate) {
         window.TerragowTranslate.setLang(lang);
-    }
-
-
+    
+}
 /* ===== THEME =====
    При переключении темы:
    1) сохраняем её в localStorage
