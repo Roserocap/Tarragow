@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terragow — Commodity Markets</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!--
+        ВАЖНО: скрипт ниже выполняется ДО отрисовки страницы.
+        Он читает тему из памяти и ставит её на <html> сразу,
+        чтобы не было "мигания" светлой темы при загрузке.
+    -->
+    <script>
+        (function() {
+            var theme = localStorage.getItem('terragow-theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <!-- Google Translate -->
+    <div id="google_translate_element" style="display:none;"></div>
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,ru,es,it,de,fr',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- TradingView widgets (подключаем ОДИН РАЗ) -->
+    <script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-ticker-tape.js"></script>
+    <script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-mini-chart.js"></script>
+    <script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-market-data.js"></script>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="index.html" class="header-logo">
+                <img src="logo.svg" alt="Terragow">
+            </a>
+            <div class="header-controls">
+                <div class="lang-dropdown">
+                    <button class="control-btn" onclick="toggleLangMenu()" id="langBtn">
+                        <span id="currentLang">EN</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="lang-menu" id="langMenu">
+                        <div class="lang-option active" data-lang="en" onclick="changeLang('en')">🇺🇸 English</div>
+                        <div class="lang-option" data-lang="ru" onclick="changeLang('ru')">🇷🇺 Русский</div>
+                        <div class="lang-option" data-lang="es" onclick="changeLang('es')">🇪🇸 Español</div>
+                        <div class="lang-option" data-lang="it" onclick="changeLang('it')">🇮🇹 Italiano</div>
+                        <div class="lang-option" data-lang="de" onclick="changeLang('de')">🇩🇪 Deutsch</div>
+                        <div class="lang-option" data-lang="fr" onclick="changeLang('fr')">🇫🇷 Français</div>
+                    </div>
+                </div>
+                <button class="control-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="themeIcon">
+                        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- TradingView Ticker Tape -->
+    <div class="ticker-section">
+        <tv-ticker-tape
+            symbols="CMCMARKETS:GOLD,FOREXCOM:WHEAT,BLACKBULL:BRENT,CAPITALCOM:DXY"
+            hide-chart
+            item-size="compact">
+        </tv-ticker-tape>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Tabs -->
+        <nav class="tabs-nav">
+            <button class="tab-btn active" data-tab="gold"  onclick="switchTab('gold')"><span class="tab-label">Gold</span></button>
+            <button class="tab-btn"        data-tab="oil"   onclick="switchTab('oil')"><span class="tab-label">Oil</span></button>
+            <button class="tab-btn"        data-tab="wheat" onclick="switchTab('wheat')"><span class="tab-label">Wheat</span></button>
+        </nav>
+
+        <!-- ==================== GOLD TAB ==================== -->
+        <div class="tab-content active" id="tab-gold">
+            <div class="section">
+                <div class="section-grid">
+                    <div class="news-frame">
+                        <div class="news-frame-header">
+                            <div class="news-frame-title">📡 <span class="tab-news-title">Latest Gold News</span></div>
+                            <span style="font-family:'Roboto Mono';font-size:11px;color:var(--text-muted);">UTC 00:00</span>
+                        </div>
+                        <div class="news-frame-scroll" id="goldNews"></div>
+                    </div>
+                    <div class="articles-block">
+                        <div class="articles-block-header">
+                            <div class="articles-block-title">📝 <span class="tab-articles-title">Gold Analysis</span></div>
+                        </div>
+                        <div class="articles-list" id="goldArticles"></div>
+                    </div>
+                </div>
+
+                <div class="widgets-row" style="margin-top: 32px;">
+                    <div class="widget-card">
+                        <div class="widget-header">📈 Live Chart</div>
+                        <div class="widget-body">
+                            <tv-mini-chart symbol="OANDA:XAUUSD" line-chart-type="Line" style="width:100%;height:100%;display:block;"></tv-mini-chart>
+                        </div>
+                    </div>
+                    <div class="widget-card">
+                        <div class="widget-header">💰 Market Data</div>
+                        <div class="widget-body">
+                            <tv-market-data
+                                symbol-sectors='[{"sectionName":"Indices","symbols":["TVC:GOLD","TVC:SILVER","TVC:PLATINUM","BINANCE:BTCUSDT","CAPITALCOM:DXY"]}]'
+                                style="width:100%;height:100%;display:block;">
+                            </tv-market-data>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== OIL TAB ==================== -->
+        <div class="tab-content" id="tab-oil">
+            <div class="section">
+                <div class="section-grid">
+                    <div class="news-frame">
+                        <div class="news-frame-header">
+                            <div class="news-frame-title">📡 <span class="tab-news-title">Latest Oil News</span></div>
+                            <span style="font-family:'Roboto Mono';font-size:11px;color:var(--text-muted);">UTC 00:00</span>
+                        </div>
+                        <div class="news-frame-scroll" id="oilNews"></div>
+                    </div>
+                    <div class="articles-block">
+                        <div class="articles-block-header">
+                            <div class="articles-block-title">📝 <span class="tab-articles-title">Oil Analysis</span></div>
+                        </div>
+                        <div class="articles-list" id="oilArticles"></div>
+                    </div>
+                </div>
+
+                <div class="widgets-row" style="margin-top: 32px;">
+                    <div class="widget-card">
+                        <div class="widget-header">📈 Live Chart</div>
+                        <div class="widget-body">
+                            <tv-mini-chart symbol="BLACKBULL:WTI" line-chart-type="Line" style="width:100%;height:100%;display:block;"></tv-mini-chart>
+                        </div>
+                    </div>
+                    <div class="widget-card">
+                        <div class="widget-header">💰 Market Data</div>
+                        <div class="widget-body">
+                            <tv-market-data
+                                symbol-sectors='[{"sectionName":"Indices","symbols":["BLACKBULL:WTI","BLACKBULL:BRENT","CAPITALCOM:NATURALGAS","CAPITALCOM:GASOLINE","FRED:GASDESW"]}]'
+                                style="width:100%;height:100%;display:block;">
+                            </tv-market-data>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== WHEAT TAB ==================== -->
+        <div class="tab-content" id="tab-wheat">
+            <div class="section">
+                <div class="section-grid">
+                    <div class="news-frame">
+                        <div class="news-frame-header">
+                            <div class="news-frame-title">📡 <span class="tab-news-title">Latest Wheat News</span></div>
+                            <span style="font-family:'Roboto Mono';font-size:11px;color:var(--text-muted);">UTC 00:00</span>
+                        </div>
+                        <div class="news-frame-scroll" id="wheatNews"></div>
+                    </div>
+                    <div class="articles-block">
+                        <div class="articles-block-header">
+                            <div class="articles-block-title">📝 <span class="tab-articles-title">Wheat Analysis</span></div>
+                        </div>
+                        <div class="articles-list" id="wheatArticles"></div>
+                    </div>
+                </div>
+
+                <div class="widgets-row" style="margin-top: 32px;">
+                    <div class="widget-card">
+                        <div class="widget-header">📈 Live Chart</div>
+                        <div class="widget-body">
+                            <tv-mini-chart symbol="FOREXCOM:WHEAT" line-chart-type="Line" style="width:100%;height:100%;display:block;"></tv-mini-chart>
+                        </div>
+                    </div>
+                    <div class="widget-card">
+                        <div class="widget-header">💰 Market Data</div>
+                        <div class="widget-body">
+                            <tv-market-data
+                                symbol-sectors='[{"sectionName":"Indices","symbols":["FOREXCOM:WHEAT","FOREXCOM:SOYBEAN","CAPITALCOM:OATS","FOREXCOM:CORN","CAPITALCOM:DXY"]}]'
+                                style="width:100%;height:100%;display:block;">
+                            </tv-market-data>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-disclaimer">
+                <h4>⚠️ <span class="footer-risk-title">Risk Disclaimer</span></h4>
+                <p class="footer-risk-text">Trading in commodities, futures, and derivatives involves substantial risk of loss and is not suitable for all investors. Past performance is not indicative of future results. Terragow provides market information and analysis for educational purposes only and does not constitute investment advice. Please consult a licensed financial advisor before making any investment decisions.</p>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">© 2026 Terragow. All rights reserved.</div>
+                <div style="color:var(--text-muted);font-size:13px;">International Financial Portal</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
