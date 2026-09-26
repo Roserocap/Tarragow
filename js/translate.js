@@ -54,38 +54,51 @@
         }
     }
 
-    /* ===== ПЕРЕВОД ОДНОГО ЭЛЕМЕНТА ===== */
-    async function translateElement(el) {
-        if (currentLang === 'en') return;
+    /* ===== ПЕРЕВОД ЧЕРЕЗ MYMEMORY ===== */
+async function myMemoryTranslate(text, toLang) {
+    if (toLang === 'en' || !text || text.trim().length < 2) return text;
 
-        // Пропускаем тикеры и всё, что помечено notranslate
-        if (el.closest('.ticker-section') ||
-            el.closest('.notranslate') ||
-            el.closest('tv-ticker-tape') ||
-            el.closest('tv-mini-chart') ||
-            el.closest('tv-market-data')) {
-            return;
-        }
-
-        // Пропускаем уже переведённые
-        if (el.hasAttribute('data-translated')) return;
-
-        const originalText = el.textContent.trim();
-        if (!originalText || originalText.length < 2) return;
-
-        // Сохраняем оригинал
-        if (!originalTexts.has(el)) {
-            originalTexts.set(el, originalText);
-        }
-
-        const translated = await apertiumTranslate(originalText, currentLang);
-
-        if (translated && translated !== originalText) {
-            el.textContent = translated;
-            el.setAttribute('data-translated', 'true');
-        }
+    // Проверяем кэш
+    const cacheKey = `${toLang}:${text}`;
+    if (translationCache.has(cacheKey)) {
+        return translationCache.get(cacheKey);
     }
 
+    // Коды языков для MyMemory
+    const langMap = {
+        'en': 'en',
+        'ru': 'ru',
+        'es': 'es',
+        'it': 'it',
+        'de': 'de',
+        'fr': 'fr'
+    };
+
+    try {
+        // MyMemory API endpoint
+        const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${langMap[toLang]}&mt=1`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        // Проверяем статус ответа
+        if (data.responseStatus !== 200) {
+            console.warn('MyMemory error:', data.responseDetails);
+            return text;
+        }
+
+        const translated = data.responseData?.translatedText || text;
+
+        // Сохраняем в кэш
+        translationCache.set(cacheKey, translated);
+
+        return translated;
+    } catch (e) {
+        console.warn('MyMemory error:', e);
+        return text;
+    }
+}
+   
     /* ===== ПЕРЕВОД ВСЕГО ДОКУМЕНТА ===== */
     async function translateAll() {
         if (currentLang === 'en') return;
