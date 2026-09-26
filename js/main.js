@@ -142,7 +142,7 @@ function changeLang(lang) {
     if (window.TerragowTranslate) {
         window.TerragowTranslate.setLang(lang);
     }
-}
+
 
 /* ===== THEME =====
    При переключении темы:
