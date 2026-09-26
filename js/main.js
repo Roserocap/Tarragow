@@ -138,9 +138,7 @@ function changeLang(lang) {
     document.querySelector('.footer-risk-title').textContent = t.riskTitle;
     document.querySelector('.footer-risk-text').textContent = t.riskText;
 
-    // ДОБАВИТЬ: запустить авто-перевод
-    if (window.TerragowTranslate) {
-        window.TerragowTranslate.setLang(lang);
+    
     }
 
 }   
