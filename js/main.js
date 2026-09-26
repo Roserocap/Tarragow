@@ -138,13 +138,12 @@ function changeLang(lang) {
     document.querySelector('.footer-risk-title').textContent = t.riskTitle;
     document.querySelector('.footer-risk-text').textContent = t.riskText;
 
-    // Google Translate
-    const gtCombo = document.querySelector('.goog-te-combo');
-    if (gtCombo) {
-        gtCombo.value = lang;
-        gtCombo.dispatchEvent(new Event('change'));
+    // ДОБАВИТЬ: запустить авто-перевод
+    if (window.TerragowTranslate) {
+        window.TerragowTranslate.setLang(lang);
     }
-}
+
+}   
 
 /* ===== THEME =====
    При переключении темы:
