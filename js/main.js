@@ -159,10 +159,23 @@ function initTheme() {
 
 function toggleTheme() {
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    currentTheme = newTheme;
     localStorage.setItem('terragow-theme', newTheme);
 
-    // Перезагружаем страницу, чтобы виджеты TradingView перерисовались в новой теме
-    window.location.reload();
+    // 1. Меняем тему сайта (CSS)
+    document.documentElement.setAttribute('data-theme', newTheme);
+    updateThemeIcon(newTheme);
+
+    // 2. Меняем тему всех виджетов TradingView на странице
+    updateWidgetsTheme(newTheme);
+}
+
+/* Обновляет атрибут theme у всех виджетов TradingView */
+function updateWidgetsTheme(theme) {
+    const widgets = document.querySelectorAll(
+        'tv-ticker-tape, tv-mini-chart, tv-market-data'
+    );
+    widgets.forEach(w => w.setAttribute('theme', theme));
 }
 
 function updateThemeIcon(theme) {
