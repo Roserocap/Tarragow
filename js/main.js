@@ -132,5 +132,3 @@ function updateThemeIcon(theme) {
     }
 }
 
-
-});
