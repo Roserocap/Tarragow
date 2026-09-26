@@ -147,6 +147,8 @@ body {
     border-bottom: 1px solid var(--border);
     height: 48px;
     overflow: hidden;
+    color-scheme: dark;
+}
 }
 .ticker-wrapper {
     display: flex;
