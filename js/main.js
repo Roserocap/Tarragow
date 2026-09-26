@@ -4,7 +4,6 @@
    ============================================ */
 
 /* ===== STATE ===== */
-let currentLang = 'en';
 let currentTheme = 'light';
 
 /* ===== INIT ===== */
