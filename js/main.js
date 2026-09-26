@@ -89,60 +89,6 @@ function openTabFromHash() {
     }
 }
 
-/* ===== LANGUAGE ===== */
-function detectBrowserLang() {
-    const browserLang = (navigator.language || navigator.userLanguage || 'en').split('-')[0];
-    const supported = ['en', 'ru', 'es', 'it', 'de', 'fr'];
-    const lang = supported.includes(browserLang) ? browserLang : 'en';
-    changeLang(lang);
-}
-
-function toggleLangMenu() {
-    document.getElementById('langMenu').classList.toggle('active');
-}
-
-function changeLang(lang) {
-    currentLang = lang;
-    document.getElementById('currentLang').textContent = lang.toUpperCase();
-
-    document.querySelectorAll('.lang-option').forEach(opt => {
-        opt.classList.toggle('active', opt.dataset.lang === lang);
-    });
-    document.getElementById('langMenu').classList.remove('active');
-
-    const t = translations[lang];
-
-    // Табы
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        const tab = btn.dataset.tab;
-        if (t[tab]) btn.querySelector('.tab-label').textContent = t[tab];
-    });
-
-    // Заголовки новостей
-    document.querySelectorAll('.tab-news-title').forEach(el => {
-        const section = el.closest('.tab-content');
-        if (!section) return;
-        const tab = section.id.replace('tab-', '');
-        if (t[tab]) el.textContent = t.latestNews + ' — ' + t[tab];
-    });
-
-    // Заголовки аналитики
-    document.querySelectorAll('.tab-articles-title').forEach(el => {
-        const section = el.closest('.tab-content');
-        if (!section) return;
-        const tab = section.id.replace('tab-', '');
-        if (t[tab]) el.textContent = t.analysis + ' — ' + t[tab];
-    });
-
-          // Футер
-    document.querySelector('.footer-risk-title').textContent = t.riskTitle;
-    document.querySelector('.footer-risk-text').textContent = t.riskText;
-
-       // Запускаем авто-перевод через TerragowTranslate
-    if (window.TerragowTranslate) {
-        window.TerragowTranslate.setLang(lang);
-    }
-}
 
 
 /* ===== THEME =====
