@@ -135,3 +135,32 @@ const articlesData = {
         }
     ]
 };
+/* ===== ПРОГНОЗ (Forecast) =====
+   Редактируется вручную. Для каждого раздела — свой блок.
+   
+   Что можно менять:
+   - tiker: тикер инструмента (например, 'BR1', 'XAUUSD', 'ZW1')
+   - description: описание инструмента
+   - resistance: массив из 3 значений (Day, Week, Month)
+   - support: массив из 3 значений (Day, Week, Month)
+*/
+const forecastData = {
+    gold: {
+        tiker: 'XAUUSD',
+        description: 'Spot Gold',
+        resistance: ['2,380.00', '2,420.00', '2,500.00'],
+        support:    ['2,320.00', '2,280.00', '2,200.00']
+    },
+    oil: {
+        tiker: 'BR1',
+        description: 'Futures ICE EUROPE',
+        resistance: ['105.50', '110.55', '120.00'],
+        support:    ['100.75', '85.70', '80.00']
+    },
+    wheat: {
+        tiker: 'ZW1',
+        description: 'Futures CBOT',
+        resistance: ['720.00', '750.00', '800.00'],
+        support:    ['680.00', '650.00', '600.00']
+    }
+};
