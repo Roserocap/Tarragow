@@ -13,34 +13,34 @@
 */
 const newsData = {
     gold: [
-        { source: 'Reuters',   time: '14:32', flash: true,  title: 'Fed signals potential rate cuts in Q3, gold surges to 3-month high' },
-        { source: 'Bloomberg', time: '13:15', flash: false, title: 'Central banks add 39 tonnes of gold to reserves in May' },
-        { source: 'CNBC',      time: '11:48', flash: false, title: 'Gold demand from India and China remains robust ahead of festival season' },
-        { source: 'FT',        time: '10:22', flash: false, title: 'Geopolitical tensions in Middle East support safe-haven gold buying' },
-        { source: 'WSJ',       time: '09:05', flash: false, title: 'ETF gold holdings see largest weekly inflow since January' },
-        { source: 'Reuters',   time: '08:30', flash: false, title: 'Dollar weakness provides tailwind for precious metals complex' },
-        { source: 'Bloomberg', time: '07:15', flash: false, title: 'Mining output disruptions in South Africa tighten supply' },
-        { source: 'CNBC',      time: '06:00', flash: false, title: 'Analysts raise year-end gold price target to $2,500/oz' }
+        { source: 'Reuters', flash: true,  title: 'Fed signals potential rate cuts in Q3, gold surges to 3-month high' },
+        { source: 'Bloomberg', flash: false, title: 'Central banks add 39 tonnes of gold to reserves in May' },
+        { source: 'CNBC', flash: false, title: 'Gold demand from India and China remains robust ahead of festival season' },
+        { source: 'FT', flash: false, title: 'Geopolitical tensions in Middle East support safe-haven gold buying' },
+        { source: 'WSJ' , flash: false, title: 'ETF gold holdings see largest weekly inflow since January' },
+        { source: 'Reuters', flash: false, title: 'Dollar weakness provides tailwind for precious metals complex' },
+        { source: 'Bloomberg', flash: false, title: 'Mining output disruptions in South Africa tighten supply' },
+        { source: 'CNBC', flash: false, title: 'Analysts raise year-end gold price target to $2,500/oz' }
     ],
     oil: [
-        { source: 'Reuters',   time: '14:45', flash: true,  title: 'OPEC+ agrees to extend production cuts through Q4 2026' },
-        { source: 'Bloomberg', time: '13:20', flash: false, title: 'US crude inventories fall by 4.2 million barrels last week' },
-        { source: 'CNBC',      time: '12:10', flash: false, title: 'Brent crude tests $83 resistance as demand outlook improves' },
-        { source: 'FT',        time: '10:55', flash: false, title: 'European refiners increase runs ahead of summer driving season' },
-        { source: 'WSJ',       time: '09:40', flash: false, title: 'IEA raises 2026 global oil demand growth forecast to 1.1 mb/d' },
-        { source: 'Reuters',   time: '08:25', flash: false, title: 'Strait of Hormuz shipping concerns add risk premium to crude' },
-        { source: 'Bloomberg', time: '07:00', flash: false, title: 'US shale producers maintain disciplined capex despite higher prices' },
-        { source: 'CNBC',      time: '05:30', flash: false, title: 'Natural gas prices rally on hotter-than-expected summer forecast' }
+        { source: 'Reuters', flash: true,  title: 'OPEC+ agrees to extend production cuts through Q4 2026' },
+        { source: 'Bloomberg', flash: false, title: 'US crude inventories fall by 4.2 million barrels last week' },
+        { source: 'CNBC', flash: false, title: 'Brent crude tests $83 resistance as demand outlook improves' },
+        { source: 'FT', flash: false, title: 'European refiners increase runs ahead of summer driving season' },
+        { source: 'WSJ', flash: false, title: 'IEA raises 2026 global oil demand growth forecast to 1.1 mb/d' },
+        { source: 'Reuters' , flash: false, title: 'Strait of Hormuz shipping concerns add risk premium to crude' },
+        { source: 'Bloomberg', flash: false, title: 'US shale producers maintain disciplined capex despite higher prices' },
+        { source: 'CNBC', flash: false, title: 'Natural gas prices rally on hotter-than-expected summer forecast' }
     ],
     wheat: [
-        { source: 'Reuters',   time: '15:00', flash: true,  title: 'Black Sea grain deal uncertainty sends wheat futures higher' },
-        { source: 'Bloomberg', time: '13:45', flash: false, title: 'USDA cuts global wheat production estimate by 3.2 million tonnes' },
-        { source: 'CNBC',      time: '12:30', flash: false, title: 'Drought conditions in Argentina threaten winter wheat crop' },
-        { source: 'FT',        time: '11:15', flash: false, title: 'EU wheat exports accelerate as Black Sea supplies face disruption' },
-        { source: 'WSJ',       time: '10:00', flash: false, title: 'India considers wheat import tender as domestic stocks deplete' },
-        { source: 'Reuters',   time: '08:50', flash: false, title: 'Australian wheat harvest forecast revised down on El Nino impact' },
-        { source: 'Bloomberg', time: '07:30', flash: false, title: 'Fertilizer costs decline, easing pressure on wheat margins' },
-        { source: 'CNBC',      time: '06:15', flash: false, title: 'Soybean-wheat spread narrows on shifting acreage expectations' }
+        { source: 'Reuters', flash: true,  title: 'Black Sea grain deal uncertainty sends wheat futures higher' },
+        { source: 'Bloomberg', flash: false, title: 'USDA cuts global wheat production estimate by 3.2 million tonnes' },
+        { source: 'CNBC', flash: false, title: 'Drought conditions in Argentina threaten winter wheat crop' },
+        { source: 'FT', flash: false, title: 'EU wheat exports accelerate as Black Sea supplies face disruption' },
+        { source: 'WSJ', flash: false, title: 'India considers wheat import tender as domestic stocks deplete' },
+        { source: 'Reuters', flash: false, title: 'Australian wheat harvest forecast revised down on El Nino impact' },
+        { source: 'Bloomberg', flash: false, title: 'Fertilizer costs decline, easing pressure on wheat margins' },
+        { source: 'CNBC', flash: false, title: 'Soybean-wheat spread narrows on shifting acreage expectations' }
     ]
 };
 
