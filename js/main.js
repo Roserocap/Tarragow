@@ -31,8 +31,7 @@ function initNews() {
             <div class="news-item ${item.flash ? 'flash' : ''}">
                 <div class="news-item-header">
                     <span class="news-source">${item.source}</span>
-                    ${item.flash ? '<span class="news-flash-icon">⚡</span>' : ''}
-                    <span class="news-time">${item.time}</span>
+                    ${item.flash ? '<span class="news-flash-icon">⚡</span>' : ''
                 </div>
                 <div class="news-title ${item.flash ? 'flash' : ''}">${item.title}</div>
             </div>
