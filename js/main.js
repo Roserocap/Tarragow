@@ -132,4 +132,32 @@ function updateThemeIcon(theme) {
         icon.innerHTML = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
     }
 }
+/* ===== FORECAST ===== */
+function initForecast() {
+    ['gold', 'oil', 'wheat'].forEach(cat => {
+        const data = forecastData[cat];
+        if (!data) return;
 
+        // Тикер и описание
+        const tikerEl = document.getElementById(cat + 'ForecastTiker');
+        const descEl = document.getElementById(cat + 'ForecastDesc');
+        if (tikerEl) tikerEl.textContent = data.tiker;
+        if (descEl) descEl.textContent = data.description;
+
+        // Resistance
+        const resDay = document.getElementById(cat + 'ForecastResDay');
+        const resWeek = document.getElementById(cat + 'ForecastResWeek');
+        const resMonth = document.getElementById(cat + 'ForecastResMonth');
+        if (resDay) resDay.textContent = data.resistance[0];
+        if (resWeek) resWeek.textContent = data.resistance[1];
+        if (resMonth) resMonth.textContent = data.resistance[2];
+
+        // Support
+        const supDay = document.getElementById(cat + 'ForecastSupDay');
+        const supWeek = document.getElementById(cat + 'ForecastSupWeek');
+        const supMonth = document.getElementById(cat + 'ForecastSupMonth');
+        if (supDay) supDay.textContent = data.support[0];
+        if (supWeek) supWeek.textContent = data.support[1];
+        if (supMonth) supMonth.textContent = data.support[2];
+    });
+}
