@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initTheme();
     initNews();
     initArticles();
+    initForecast();
     openTabFromHash();
    updateWidgetsTheme(currentTheme);
 });
