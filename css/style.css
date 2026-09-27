@@ -522,3 +522,76 @@ body {
     .tab-btn { padding: 10px 12px; font-size: 12px; }
     .article-page h1 { font-size: 22px; }
 }
+/* ============================================
+   FORECAST BLOCK
+   ============================================ */
+.forecast-block {
+    margin-top: 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+}
+
+.forecast-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+}
+
+.forecast-instrument {
+    margin-bottom: 24px;
+}
+
+.forecast-tiker {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.forecast-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.forecast-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.forecast-table th {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.forecast-table th:first-child {
+    width: 40%;
+}
+
+.forecast-table td {
+    padding: 16px 0;
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.forecast-table .forecast-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .forecast-block { padding: 20px 16px; }
+    .forecast-tiker { font-size: 22px; }
+    .forecast-table th:first-child { width: 35%; }
+    .forecast-table td { font-size: 14px; padding: 12px 0; }
+    .forecast-table .forecast-label { font-size: 14px; }
+}
